@@ -16,7 +16,9 @@ let questionModel = mongoose.Schema(
         inventory: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Inventory"
-        }
+        },
+        answer: String,
+        ownername: String
     },
     {
         collection: "question"

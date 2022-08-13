@@ -25,6 +25,7 @@ router.get('/list', questionController.questionList);
 
 // Routers for edit
 // router.get('/edit/:id', requireAuth, inventoryController.displayEditPage);
+router.put('/edit/:id', authController.requireAuth, authController.isQuestionOwner, questionController.processEdit);
 
 
 /* GET Route for displaying the Add page - CREATE Operation */

@@ -1,5 +1,6 @@
 // create a reference to the model
 let InventoryModel = require('../models/inventory');
+let User = require('../models/user');
 
 function getErrorMessage(err) {    
     if (err.errors) {
@@ -56,25 +57,25 @@ module.exports.inventoryList = async function(req, res, next) {
 // }
 
 
-module.exports.processEdit = (req, res, next) => {
+module.exports.processEdit = async (req, res, next) => {
 
     try {
-        let id = req.params.id
+        let id = req.params.id;
+        let owner = req.payload.id;
+        let user = await User.findById(owner);
+        let ownername = user.username;
 
         let updatedItem = InventoryModel({
+
             _id: id, //id is not present in the body.
             item: req.body.item,
-            qty: req.body.qty,
-            status: req.body.status,
+            condition: req.body.condition,
+            color: req.body.color,
+            information: req.body.information,
             date: req.body.date,
             enddate: req.body.enddate,
-            size : {
-                h: req.body.size.h,
-                w: req.body.size.w,
-                uom: req.body.size.uom,
-            },
-
-            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner,
+            ownername: ownername
         });
 
         InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
@@ -168,23 +169,23 @@ module.exports.performDelete = (req, res, next) => {
 
 // }
 
-module.exports.processAdd = (req, res, next) => {
+module.exports.processAdd = async (req, res, next) => {
 
     try {
+        let owner = req.payload.id;
+        let user = await User.findById(owner);
+        let ownername = user.username;
+
         let newItem = InventoryModel({
             _id: req.body.id,
             item: req.body.item,
-            qty: req.body.qty,
-            status: req.body.status,
+            condition: req.body.condition,
+            color: req.body.color,
+            information: req.body.information,
             date: req.body.date,
             enddate: req.body.enddate,
-            size : {
-                h: req.body.size.h,
-                w: req.body.size.w,
-                uom: req.body.size.uom,
-            },
-            tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
-            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner,
+            ownername: ownername
         });
     
         InventoryModel.create(newItem, (err, item) =>{

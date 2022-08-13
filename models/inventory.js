@@ -4,21 +4,17 @@ let mongoose = require('mongoose');
 let inventoryModel = mongoose.Schema(
     {
         item: String,
-        qty: Number,
-        tags: [],
-        status: String,
+        condition: String,
+        color: String,
+        information: String,
         date: Date,
         enddate: Date,
-        size: {
-            h: Number,
-            w: Number,
-            uom: String
-        },
         // Adds relationship with User model
         owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
+        ownername: String
 
     },
     {

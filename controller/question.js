@@ -1,6 +1,8 @@
 // create a reference to the model
 let Inventory = require('../models/inventory');
 let QuestionModel = require('../models/question');
+let Question = require('../models/question');
+let User = require('../models/user');
 
 function getErrorMessage(err) {    
     if (err.errors) {
@@ -54,14 +56,20 @@ module.exports.questionList = async function(req, res, next) {
 // }
 
 
-module.exports.processEdit = (req, res, next) => {
+module.exports.processEdit = async (req, res, next) => {
 
     try {
         let id = req.params.id
 
+        let comment = await Question.findById(id);
+        let comment2 = comment.comment;
+        let item = comment.item;
+        let inventory = comment.inventory;
+        let owner = comment.owner;
+
         let updatedComment = QuestionModel({
             _id: id, //id is not present in the body.
-            comment: req.body.comment,
+            answer: req.res.body
 
         });
 
@@ -160,15 +168,19 @@ module.exports.processAdd = async (req, res, next) => {
 
     try {
         let id = req.params.id;
-        let itemname = await Inventory.findById(id).select('item');
         let inventory = await Inventory.findById(id);
-        let owner = await Inventory.findById(id).select('owner');
+        let itemname = inventory.item;
+        let owner = inventory.owner;
+        let user = await User.findById(owner);
+        let ownername = user.username;
         let newComment = QuestionModel({
             _id: req.body.id,
             comment: req.body.comment,
-            item: itemname.item,
+            item: itemname,
             inventory: inventory,
-            owner: owner
+            owner: owner,
+            answer: 'waiting for owner answer',
+            ownername: ownername
         });
     
         QuestionModel.create(newComment, (err, comment) =>{
