@@ -67,6 +67,7 @@ module.exports.processEdit = (req, res, next) => {
             qty: req.body.qty,
             status: req.body.status,
             date: req.body.date,
+            enddate: req.body.enddate,
             size : {
                 h: req.body.size.h,
                 w: req.body.size.w,
@@ -176,6 +177,7 @@ module.exports.processAdd = (req, res, next) => {
             qty: req.body.qty,
             status: req.body.status,
             date: req.body.date,
+            enddate: req.body.enddate,
             size : {
                 h: req.body.size.h,
                 w: req.body.size.w,

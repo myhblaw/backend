@@ -8,6 +8,7 @@ let inventoryModel = mongoose.Schema(
         tags: [],
         status: String,
         date: Date,
+        enddate: Date,
         size: {
             h: Number,
             w: Number,
