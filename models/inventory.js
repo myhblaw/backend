@@ -7,6 +7,7 @@ let inventoryModel = mongoose.Schema(
         qty: Number,
         tags: [],
         status: String,
+        date: Date,
         size: {
             h: Number,
             w: Number,
@@ -17,6 +18,7 @@ let inventoryModel = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
+
     },
     {
         collection: "inventory"
