@@ -69,7 +69,7 @@ module.exports.processEdit = async (req, res, next) => {
 
         let updatedComment = QuestionModel({
             _id: id, //id is not present in the body.
-            answer: req.res.body
+            answer: req.body.answer
 
         });
 
