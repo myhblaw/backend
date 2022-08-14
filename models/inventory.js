@@ -9,6 +9,7 @@ let inventoryModel = mongoose.Schema(
         information: String,
         date: Date,
         enddate: Date,
+        status: String,
         // Adds relationship with User model
         owner: {
             type: mongoose.Schema.Types.ObjectId,
